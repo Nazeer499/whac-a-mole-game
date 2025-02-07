@@ -8,6 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  cursor: url('funny_hammer_cursor.png'), auto; /* Add your hammer cursor image here */
 }
 
 #game-container {
@@ -56,11 +57,41 @@ h1 {
 }
 
 .mole {
-  background-image: url('nazeer.png'); /* Replace with your photo */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-size: cover;
   background-position: center;
   border-radius: 50%; /* Match the hole's shape */
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 3D effect */
+}
+
+/* Point Display */
+#point-display {
+  position: absolute;
+  font-size: 24px;
+  color: #ff0;
+  font-weight: bold;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeOut 1s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
 }
 
 /* Arcade-style banner */
