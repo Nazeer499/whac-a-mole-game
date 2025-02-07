@@ -57,11 +57,7 @@ h1 {
 }
 
 .mole {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  background-image: url('nazeer.png'); /* Replace with your photo */
   background-size: cover;
   background-position: center;
   border-radius: 50%; /* Match the hole's shape */
