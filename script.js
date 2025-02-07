@@ -17,7 +17,13 @@ function initGame() {
   for (let i = 0; i < 9; i++) {
     const hole = document.createElement('div');
     hole.classList.add('mole-hole');
-    hole.dataset.index = i;
+    
+    // Create an empty mole div inside each hole
+    const mole = document.createElement('div');
+    mole.classList.add('mole');
+    mole.style.display = "none"; // Initially hidden
+    hole.appendChild(mole);
+    
     hole.addEventListener('click', handleMoleClick);
     gameBoard.appendChild(hole);
   }
@@ -41,32 +47,36 @@ function spawnMole() {
   clearTimeout(moleTimeout); // Clear previous timeout
 
   const holes = document.querySelectorAll('.mole-hole');
-  holes.forEach(hole => hole.innerHTML = ''); // Remove existing moles
+  holes.forEach(hole => hole.firstChild.style.display = 'none'); // Hide existing moles
 
   const randomHole = holes[Math.floor(Math.random() * holes.length)];
+  const mole = randomHole.firstChild;
 
-  // Create mole element
-  const mole = document.createElement('div');
-  mole.classList.add('mole');
-  mole.style.backgroundImage = "url('nazeer.png')"; // Set mole image
-  randomHole.appendChild(mole);
+  // Set mole image
+  mole.style.backgroundImage = "url('nazeer.png')";
+  mole.style.backgroundSize = "contain";
+  mole.style.backgroundPosition = "center";
+  mole.style.backgroundRepeat = "no-repeat";
+  mole.style.display = "block";
 
   // Remove mole after a short delay
   moleTimeout = setTimeout(() => {
-    randomHole.innerHTML = '';
+    mole.style.display = "none";
     if (timeLeft > 0) spawnMole();
   }, Math.random() * 1000 + 500); // Random delay between 500ms and 1500ms
 }
 
 // Handle mole click
 function handleMoleClick(event) {
-  if (event.target.classList.contains('mole')) {
+  const mole = event.target.firstChild;
+  
+  if (mole && mole.style.display === "block") {
     score++;
     updateScore();
     hitSound.play();
-    
-    // Remove mole after hit
-    event.target.parentNode.innerHTML = '';
+
+    // Hide mole immediately
+    mole.style.display = "none";
 
     // Spawn a new mole quickly after hitting one
     spawnMole();
@@ -84,4 +94,25 @@ function startTimer() {
     timeLeft--;
     updateTimer();
 
-    if (time
+    if (timeLeft <= 0) {
+      clearInterval(gameInterval);
+      endGame();
+    }
+  }, 1000);
+}
+
+// Update timer display
+function updateTimer() {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  timerDisplay.textContent = `Time: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// End the game
+function endGame() {
+  alert(`Game Over! Your final score is ${score}`);
+  location.reload(); // Restart the game
+}
+
+// Initialize the game when the page loads
+document.addEventListener('DOMContentLoaded', initGame);
