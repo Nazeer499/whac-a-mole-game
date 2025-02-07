@@ -1,52 +1,115 @@
 /* General Styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #0f0;
+  background-color: #0f0; /* Vibrant green for the game surface */
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  cursor: url('funny_hammer_cursor.png'), auto;
+  cursor: url('funny_hammer_cursor.png'), auto; /* Add your hammer cursor image here */
 }
 
+/* Game Container */
 #game-container {
   width: 600px;
-  background-color: #0f0;
-  border: 10px solid #ff0;
+  background-color: #0f0; /* Grass-like texture */
+  border: 10px solid #ff0; /* Yellow border */
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   padding: 20px;
   position: relative;
 }
 
-#game-board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 100%;
+/* Title */
+h1 {
+  color: #ff0; /* Bright yellow text */
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
 }
 
+/* Score Board */
+#score-board {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* Game Board */
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for the holes */
+  gap: 10px; /* Space between holes */
+  width: 100%; /* Ensure it fits within the container */
+}
+
+/* Mole Holes */
 .mole-hole {
-  width: 100px;
+  width: 100px; /* Fixed size for each hole */
   height: 100px;
-  background-color: #630;
-  border-radius: 50%;
+  background-color: #630; /* Dark brown for the holes */
+  border-radius: 50%; /* Circular holes */
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
 
+/* Moles */
 .mole {
-  background-image: url('nazeer.png'); /* Ensure this matches your file name */
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-  width: 100%;
+  width: 100%; /* Fill the hole */
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  background-image: url('nazeer.png'); /* Replace with your photo file name */
+  background-size: cover; /* Ensure the image covers the hole */
+  background-position: center; /* Center the image */
+  border-radius: 50%; /* Match the hole's shape */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 3D effect */
+}
+
+/* Point Display */
+#point-display {
+  position: absolute;
+  font-size: 24px;
+  color: #ff0;
+  font-weight: bold;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeOut 1s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+/* Arcade-style banner */
+#game-container::before {
+  content: "WHACK FIRST!";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #ff0, #f90);
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
