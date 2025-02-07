@@ -2,6 +2,10 @@
 const gameBoard = document.getElementById('game-board');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+const pointDisplay = document.getElementById('point-display');
+
+// Load sound effect
+const hitSound = new Audio('hit_sound.mp3'); // Replace with your sound file
 
 // Game variables
 let score = 0;
@@ -57,7 +61,27 @@ function handleMoleClick(event) {
     score++;
     scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
     event.target.classList.remove('mole'); // Remove the mole immediately
+
+    // Play sound effect
+    hitSound.play();
+
+    // Show "+1" point display
+    showPointDisplay(event.clientX, event.clientY);
   }
+}
+
+// Show "+1" point display at the click location
+function showPointDisplay(x, y) {
+  pointDisplay.classList.remove('hidden');
+  pointDisplay.style.left = `${x}px`;
+  pointDisplay.style.top = `${y}px`;
+  pointDisplay.textContent = '+1';
+  pointDisplay.style.opacity = 1;
+
+  // Hide after animation completes
+  setTimeout(() => {
+    pointDisplay.classList.add('hidden');
+  }, 1000);
 }
 
 // Start the timer
