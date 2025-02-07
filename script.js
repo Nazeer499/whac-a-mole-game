@@ -10,7 +10,7 @@ let moleTimeout = null;
 let gameActive = true;
 
 function initGame() {
-  // Create game board
+  // Create game board with holes
   for (let i = 0; i < 9; i++) {
     const hole = document.createElement('div');
     hole.className = 'mole-hole';
@@ -36,14 +36,20 @@ function startGame() {
 function spawnMole() {
   if (!gameActive) return;
 
-  const holes = document.querySelectorAll('.mole-hole');
-  holes.forEach(hole => hole.querySelector('.mole').classList.remove('active'));
+  // Hide all moles first
+  document.querySelectorAll('.mole').forEach(mole => {
+    mole.classList.remove('active');
+  });
 
+  // Select random hole
+  const holes = document.querySelectorAll('.mole-hole');
   const randomHole = holes[Math.floor(Math.random() * holes.length)];
   const currentMole = randomHole.querySelector('.mole');
+
+  // Show the mole
   currentMole.classList.add('active');
 
-  // Set timeout to automatically hide mole
+  // Set timeout to automatically hide and respawn
   moleTimeout = setTimeout(() => {
     currentMole.classList.remove('active');
     if (gameActive) spawnMole();
@@ -52,19 +58,60 @@ function spawnMole() {
 
 function handleClick(e) {
   if (!gameActive) return;
-  
+
   const mole = e.target.closest('.mole');
   if (mole && mole.classList.contains('active')) {
+    // Update score and UI
     score++;
     updateScore();
     mole.classList.remove('active');
     hitSound.play();
     showPointDisplay(e.clientX, e.clientY);
-    
-    // Clear the current timeout and spawn new mole immediately
+
+    // Clear current timeout and spawn new mole immediately
     clearTimeout(moleTimeout);
     if (gameActive) spawnMole();
   }
 }
 
-// ... rest of the code remains the same (updateScore, showPointDisplay, startTimer, etc.)
+function updateScore() {
+  scoreDisplay.textContent = `Score: ${score.toString().padStart(4, '0')}`;
+}
+
+function showPointDisplay(x, y) {
+  pointDisplay.style.left = `${x}px`;
+  pointDisplay.style.top = `${y}px`;
+  pointDisplay.style.opacity = '1';
+  pointDisplay.classList.remove('hidden');
+  
+  setTimeout(() => {
+    pointDisplay.style.opacity = '0';
+  }, 1000);
+}
+
+function startTimer() {
+  const timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `Time: ${formatTime(timeLeft)}`;
+
+    if (timeLeft <= 0) {
+      gameActive = false;
+      clearInterval(timer);
+      endGame();
+    }
+  }, 1000);
+}
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const secs = (seconds % 60).toString().padStart(2, '0');
+  return `${mins}:${secs}`;
+}
+
+function endGame() {
+  alert(`Game Over! Your final score is: ${score}`);
+  location.reload();
+}
+
+// Initialize game when page loads
+document.addEventListener('DOMContentLoaded', initGame);
