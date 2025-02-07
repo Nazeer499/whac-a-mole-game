@@ -8,6 +8,7 @@ let score = 0;
 let timeLeft = 150;
 let moleTimeout = null;
 let gameActive = true;
+let useSecondImage = false; // Tracks which image to show next
 
 function initGame() {
   // Create game board with holes
@@ -28,6 +29,7 @@ function startGame() {
   score = 0;
   timeLeft = 150;
   gameActive = true;
+  useSecondImage = false; // Start with first image
   updateScore();
   startTimer();
   spawnMole();
@@ -39,12 +41,18 @@ function spawnMole() {
   // Hide all moles first
   document.querySelectorAll('.mole').forEach(mole => {
     mole.classList.remove('active');
+    mole.style.backgroundImage = '';
   });
 
   // Select random hole
   const holes = document.querySelectorAll('.mole-hole');
   const randomHole = holes[Math.floor(Math.random() * holes.length)];
   const currentMole = randomHole.querySelector('.mole');
+
+  // Set appropriate image
+  currentMole.style.backgroundImage = `url(${
+    useSecondImage ? 'nazeer2.png' : 'nazeer.png'
+  })`;
 
   // Show the mole
   currentMole.classList.add('active');
@@ -53,7 +61,7 @@ function spawnMole() {
   moleTimeout = setTimeout(() => {
     currentMole.classList.remove('active');
     if (gameActive) spawnMole();
-  }, Math.random() * 1000 + 500); // Random time between 500-1500ms
+  }, Math.random() * 1000 + 500);
 }
 
 function handleClick(e) {
@@ -67,6 +75,9 @@ function handleClick(e) {
     mole.classList.remove('active');
     hitSound.play();
     showPointDisplay(e.clientX, e.clientY);
+
+    // Toggle image for next mole
+    useSecondImage = !useSecondImage;
 
     // Clear current timeout and spawn new mole immediately
     clearTimeout(moleTimeout);
