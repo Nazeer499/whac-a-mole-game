@@ -58,7 +58,6 @@ h1 {
   position: absolute;
   top: 100%;
   left: 0;
-  background-image: url('nazeer.png');
   background-size: cover;
   background-position: center;
   transition: top 0.3s ease-in-out;
