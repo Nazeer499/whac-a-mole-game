@@ -1,80 +1,88 @@
-/* General Styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #0f0; /* Vibrant green for the game surface */
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #2c3e50;
+  cursor: url('funny_hammer_cursor.png'), auto;
 }
 
 #game-container {
   width: 600px;
-  background-color: #0f0; /* Grass-like texture */
-  border: 10px solid #ff0; /* Yellow border */
+  background-color: #27ae60;
+  border: 10px solid #f1c40f;
   border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   padding: 20px;
   position: relative;
+  text-align: center;
 }
 
 h1 {
-  color: #ff0; /* Bright yellow text */
-  font-size: 24px;
+  color: #f1c40f;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 10px;
+  margin: 0 0 20px 0;
 }
 
 #score-board {
   display: flex;
   justify-content: space-between;
-  color: #fff;
-  font-size: 18px;
+  color: white;
   margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 #game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 15px;
+  margin: 0 auto;
+  width: fit-content;
 }
 
 .mole-hole {
-  width: 100px;
-  height: 100px;
-  background-color: #630; /* Dark brown for the holes */
-  border-radius: 50%; /* Circular holes */
+  width: 120px;
+  height: 120px;
+  background-color: #8b4513;
+  border-radius: 50%;
   position: relative;
+  overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.mole-hole:hover {
-  transform: scale(1.1); /* Slight enlargement on hover */
 }
 
 .mole {
-  background-image: url('nazeer.png'); /* Replace with your photo */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-image: url('nazeer.png');
   background-size: cover;
   background-position: center;
-  border-radius: 50%; /* Match the hole's shape */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 3D effect */
+  transition: top 0.3s ease-in-out;
 }
 
-/* Arcade-style banner */
-#game-container::before {
-  content: "WHACK FIRST!";
+.mole.active {
+  top: 0;
+}
+
+#point-display {
   position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(to bottom, #ff0, #f90);
-  color: #000;
+  font-size: 24px;
+  color: #f1c40f;
   font-weight: bold;
-  font-size: 20px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeOut 1s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-50px); }
 }
