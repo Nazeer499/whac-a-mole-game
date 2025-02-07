@@ -51,8 +51,8 @@ h1 {
 
 /* Mole Holes */
 .mole-hole {
-  width: 100px; /* Fixed size for each hole */
-  height: 100px;
+  width: 80px; /* Adjusted size for better scaling */
+  height: 80px;
   background-color: #630; /* Dark brown for the holes */
   border-radius: 50%; /* Circular holes */
   position: relative;
@@ -68,7 +68,7 @@ h1 {
   top: 0;
   left: 0;
   background-image: url('nazeer.png'); /* Use your photo for the moles */
-  background-size: cover; /* Ensures the image covers the hole */
+  background-size: contain; /* Ensures the image fits within the hole without distortion */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
   border-radius: 50%; /* Match the hole's shape */
