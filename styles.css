@@ -1,28 +1,38 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+  background-color: #0f0; /* Vibrant green for the game surface */
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #game-container {
-  max-width: 600px;
-  margin: 50px auto;
+  width: 600px;
+  background-color: #0f0; /* Grass-like texture */
+  border: 10px solid #ff0; /* Yellow border */
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 h1 {
-  color: #333;
+  color: #ff0; /* Bright yellow text */
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
 }
 
 #score-board {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
   font-size: 18px;
+  margin-bottom: 20px;
 }
 
 #game-board {
@@ -34,10 +44,15 @@ h1 {
 .mole-hole {
   width: 100px;
   height: 100px;
-  background-color: #ddd;
-  border-radius: 10px;
+  background-color: #630; /* Dark brown for the holes */
+  border-radius: 50%; /* Circular holes */
   position: relative;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.mole-hole:hover {
+  transform: scale(1.1); /* Slight enlargement on hover */
 }
 
 .mole {
@@ -46,7 +61,24 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('nazeer.png'); /* Replace with your photo */
   background-size: cover;
   background-position: center;
+  border-radius: 50%; /* Match the hole's shape */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 3D effect */
+}
+
+/* Arcade-style banner */
+#game-container::before {
+  content: "WHACK FIRST!";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #ff0, #f90);
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
