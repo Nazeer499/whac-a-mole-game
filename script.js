@@ -5,7 +5,7 @@ const timerDisplay = document.getElementById('timer');
 
 // Game variables
 let score = 0;
-let timeLeft = 30;
+let timeLeft = 150; // 2 minutes 30 seconds
 let moleInterval;
 
 // Initialize the game board
@@ -23,9 +23,9 @@ function initGame() {
 // Start the game
 function startGame() {
   score = 0;
-  timeLeft = 30;
-  scoreDisplay.textContent = `Score: ${score}`;
-  timerDisplay.textContent = `Time: ${timeLeft}s`;
+  timeLeft = 150;
+  scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
+  timerDisplay.textContent = `Time: ${formatTime(timeLeft)}`;
 
   spawnMole();
   startTimer();
@@ -55,7 +55,7 @@ function spawnMole() {
 function handleMoleClick(event) {
   if (event.target.classList.contains('mole')) {
     score++;
-    scoreDisplay.textContent = `Score: ${score}`;
+    scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
     event.target.classList.remove('mole'); // Remove the mole immediately
   }
 }
@@ -64,13 +64,20 @@ function handleMoleClick(event) {
 function startTimer() {
   const timer = setInterval(() => {
     timeLeft--;
-    timerDisplay.textContent = `Time: ${timeLeft}s`;
+    timerDisplay.textContent = `Time: ${formatTime(timeLeft)}`;
 
     if (timeLeft <= 0) {
       clearInterval(timer);
       endGame();
     }
   }, 1000);
+}
+
+// Format time as MM:SS
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
 // End the game
