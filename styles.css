@@ -1,28 +1,52 @@
-/* Game Board */
-#game-board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns for the holes */
-  gap: 10px; /* Space between holes */
-  width: 100%; /* Ensure it fits within the container */
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  cursor: url('funny_hammer_cursor.png'), auto;
 }
 
-/* Mole Holes */
+#game-container {
+  width: 600px;
+  background-color: #0f0;
+  border: 10px solid #ff0;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  position: relative;
+}
+
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
 .mole-hole {
-  width: 100px; /* Fixed size for each hole */
+  width: 100px;
   height: 100px;
-  background-color: #630; /* Dark brown for the holes */
-  border-radius: 50%; /* Circular holes */
+  background-color: #630;
+  border-radius: 50%;
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
 
-/* Moles */
-/* Moles */
 .mole {
-  background-image: url('nazeer.png'); /* Replace with your photo file name */
+  background-image: url('nazeer.png'); /* Ensure this matches your file name */
   background-size: cover;
   background-position: center;
   border-radius: 50%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
