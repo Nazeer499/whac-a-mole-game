@@ -2,21 +2,22 @@
 const gameBoard = document.getElementById('game-board');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
-const pointDisplay = document.getElementById('point-display');
 
 // Load sound effect
-const hitSound = new Audio('hit_sound.mp3'); // Replace with your sound file
+const hitSound = new Audio('hit_sound.mp3'); // Replace with your actual sound file
 
 // Game variables
 let score = 0;
 let timeLeft = 150; // 2 minutes 30 seconds
-let moleInterval;
+let gameInterval;
+let moleTimeout;
 
 // Initialize the game board
 function initGame() {
   for (let i = 0; i < 9; i++) {
     const hole = document.createElement('div');
     hole.classList.add('mole-hole');
+    hole.dataset.index = i;
     hole.addEventListener('click', handleMoleClick);
     gameBoard.appendChild(hole);
   }
@@ -28,8 +29,8 @@ function initGame() {
 function startGame() {
   score = 0;
   timeLeft = 150;
-  scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
-  timerDisplay.textContent = `Time: ${formatTime(timeLeft)}`;
+  updateScore();
+  updateTimer();
 
   spawnMole();
   startTimer();
@@ -37,21 +38,23 @@ function startGame() {
 
 // Spawn a mole in a random hole
 function spawnMole() {
-  clearInterval(moleInterval); // Clear previous interval
+  clearTimeout(moleTimeout); // Clear previous timeout
 
   const holes = document.querySelectorAll('.mole-hole');
+  holes.forEach(hole => hole.innerHTML = ''); // Remove existing moles
+
   const randomHole = holes[Math.floor(Math.random() * holes.length)];
 
-  // Remove any existing mole
-  holes.forEach(hole => hole.classList.remove('mole'));
+  // Create mole element
+  const mole = document.createElement('div');
+  mole.classList.add('mole');
+  mole.style.backgroundImage = "url('nazeer.png')"; // Set mole image
+  randomHole.appendChild(mole);
 
-  // Add the mole class to the random hole
-  randomHole.classList.add('mole');
-
-  // Randomly remove the mole after a short delay
-  moleInterval = setTimeout(() => {
-    randomHole.classList.remove('mole');
-    if (timeLeft > 0) spawnMole(); // Continue spawning if time remains
+  // Remove mole after a short delay
+  moleTimeout = setTimeout(() => {
+    randomHole.innerHTML = '';
+    if (timeLeft > 0) spawnMole();
   }, Math.random() * 1000 + 500); // Random delay between 500ms and 1500ms
 }
 
@@ -59,56 +62,26 @@ function spawnMole() {
 function handleMoleClick(event) {
   if (event.target.classList.contains('mole')) {
     score++;
-    scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
-    event.target.classList.remove('mole'); // Remove the mole immediately
-
-    // Play sound effect
+    updateScore();
     hitSound.play();
+    
+    // Remove mole after hit
+    event.target.parentNode.innerHTML = '';
 
-    // Show "+1" point display
-    showPointDisplay(event.clientX, event.clientY);
+    // Spawn a new mole quickly after hitting one
+    spawnMole();
   }
 }
 
-// Show "+1" point display at the click location
-function showPointDisplay(x, y) {
-  pointDisplay.classList.remove('hidden');
-  pointDisplay.style.left = `${x}px`;
-  pointDisplay.style.top = `${y}px`;
-  pointDisplay.textContent = '+1';
-  pointDisplay.style.opacity = 1;
-
-  // Hide after animation completes
-  setTimeout(() => {
-    pointDisplay.classList.add('hidden');
-  }, 1000);
+// Update score display
+function updateScore() {
+  scoreDisplay.textContent = `Score: ${String(score).padStart(4, '0')}`;
 }
 
 // Start the timer
 function startTimer() {
-  const timer = setInterval(() => {
+  gameInterval = setInterval(() => {
     timeLeft--;
-    timerDisplay.textContent = `Time: ${formatTime(timeLeft)}`;
+    updateTimer();
 
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      endGame();
-    }
-  }, 1000);
-}
-
-// Format time as MM:SS
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-}
-
-// End the game
-function endGame() {
-  alert(`Game Over! Your final score is ${score}`);
-  location.reload(); // Restart the game
-}
-
-// Initialize the game when the page loads
-document.addEventListener('DOMContentLoaded', initGame);
+    if (time
